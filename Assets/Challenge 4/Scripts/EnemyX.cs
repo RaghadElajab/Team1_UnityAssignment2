@@ -12,7 +12,7 @@ public class EnemyX : MonoBehaviour
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
-        playerGoal = GameObject.Find("PlayerGoal");//i initialize the playerGoal
+        playerGoal = GameObject.Find("Player Goal");//i initialize the playerGoal
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class EnemyX : MonoBehaviour
         {
             Destroy(gameObject);
         } 
-        else if (other.gameObject.name == "PlayerGoal")
+        else if (other.gameObject.name == "Player Goal")
         {
             Destroy(gameObject);
         }
