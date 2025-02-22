@@ -8,9 +8,12 @@ public class PushAway : MonoBehaviour
     public float expansionSpeed = 20f; // Speed at which the collider grows
     public float maxForce = 50f;   // Strongest push when close
     public float minForce = 10f;   // Weakest push when far
-
+    public GameObject pushpowerupIndicator;
+    public int powerUpDuration = 5;
     private SphereCollider pushCollider;
+    private PlayerControllerX playerScript;
     private bool isExpanding = false;
+    private bool hasPowerup;
     private Vector3 initialPosition;
     public GameObject player;
     private Rigidbody prb;
@@ -22,20 +25,34 @@ public class PushAway : MonoBehaviour
         pushCollider.isTrigger = true;
         pushCollider.radius = 0.1f; // Start small
         pushCollider.enabled = false; // Disable initially
+        playerScript = player.GetComponent<PlayerControllerX>();
     }
 
     void Update()
     {
+       hasPowerup = playerScript.hasPush;
         transform.position = player.transform.position;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (hasPowerup)
+        {
+            pushpowerupIndicator.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) & hasPowerup)
         {
             StartCoroutine(ExpandCollider());
         }
+        pushpowerupIndicator.transform.position = transform.position + new Vector3(0, -0.2f, 0);
+        pushpowerupIndicator.transform.Rotate(Vector3.up * 200 * Time.deltaTime);
     }
-
+    IEnumerator PowerupCooldown()
+    {
+        yield return new WaitForSeconds(powerUpDuration);
+        hasPowerup = false;
+        playerScript.hasPush = false;
+        pushpowerupIndicator.SetActive(false);
+    }
     IEnumerator ExpandCollider()
     {
-        prb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        prb.AddForce(Vector3.up*5, ForceMode.Impulse);
         pushCollider.enabled = true;
         isExpanding = true;
         pushCollider.radius = 0.1f;
@@ -53,7 +70,7 @@ public class PushAway : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isExpanding || !other.CompareTag("Enemy")) return;
+       
         if (other.CompareTag("Enemy") && isExpanding)
         {
             Rigidbody enemyRb = other.GetComponent<Rigidbody>();
