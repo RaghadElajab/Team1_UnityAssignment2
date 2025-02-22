@@ -53,6 +53,7 @@ public class PushAway : MonoBehaviour
     IEnumerator ExpandCollider()
     {
         prb.AddForce(Vector3.up*5, ForceMode.Impulse);
+        StartCoroutine(PowerupCooldown());
         pushCollider.enabled = true;
         isExpanding = true;
         pushCollider.radius = 0.1f;
