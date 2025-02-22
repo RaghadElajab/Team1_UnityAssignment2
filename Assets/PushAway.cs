@@ -12,9 +12,12 @@ public class PushAway : MonoBehaviour
     private SphereCollider pushCollider;
     private bool isExpanding = false;
     private Vector3 initialPosition;
+    public GameObject player;
+    private Rigidbody prb;
 
     void Start()
     {
+        prb = player.GetComponent<Rigidbody>();
         pushCollider = GetComponent<SphereCollider>();
         pushCollider.isTrigger = true;
         pushCollider.radius = 0.1f; // Start small
@@ -23,6 +26,7 @@ public class PushAway : MonoBehaviour
 
     void Update()
     {
+        transform.position = player.transform.position;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(ExpandCollider());
@@ -31,6 +35,7 @@ public class PushAway : MonoBehaviour
 
     IEnumerator ExpandCollider()
     {
+        prb.AddForce(Vector3.up * 5, ForceMode.Impulse);
         pushCollider.enabled = true;
         isExpanding = true;
         pushCollider.radius = 0.1f;
@@ -48,13 +53,14 @@ public class PushAway : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!isExpanding || !other.CompareTag("Enemy")) return;
         if (other.CompareTag("Enemy") && isExpanding)
         {
             Rigidbody enemyRb = other.GetComponent<Rigidbody>();
             if (enemyRb != null)
             {
-                float distance = Vector3.Distance(initialPosition, other.transform.position);
-                float force = Mathf.Lerp(maxForce, minForce, distance / maxRadius); // Weaker force at greater distances
+                float forceFactor = 1 - (pushCollider.radius / maxRadius); // Smaller collider = stronger push
+                float force = minForce + (maxForce - minForce) * forceFactor; // Adjust force based on size
 
                 Vector3 pushDirection = (other.transform.position - initialPosition).normalized;
                 enemyRb.AddForce(pushDirection * force, ForceMode.Impulse);

@@ -35,7 +35,7 @@ public class PlayerControllerX : MonoBehaviour
     // If Player collides with powerup, activate powerup
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Powerup"))
+        if (other.gameObject.CompareTag("Powerup") && !gameObject.CompareTag("pcollider"))
         {
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());//i started the cooldown when the player pick up the powerup
