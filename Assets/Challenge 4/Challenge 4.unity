@@ -1024,6 +1024,7 @@ MonoBehaviour:
   powerupIndicator: {fileID: 1427939658}
   shieldIndicator: {fileID: 2084691051}
   powerUpDuration: 5
+
   shield: {fileID: 1038648028}
 --- !u!1001 &593691768
 PrefabInstance:
@@ -2672,7 +2673,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9dab8772c52fc7c4893fb63a2cf3ab36, type: 3}
+    m_SourcePrefab: {fileID: 100100000, guid: 9dab8772c52fc7c4893fb63a2cf3ab36, type: 3}
 --- !u!1 &2046577833
 GameObject:
   m_ObjectHideFlags: 0
