@@ -21,7 +21,7 @@ public class HomePageHandler : MonoBehaviour
 
     void ForwardMode()
     {
-        LoadGameScene("ForwardScene");
+        LoadGameScene("Challenge 4");
     }
 
     void GkeeperMode()
