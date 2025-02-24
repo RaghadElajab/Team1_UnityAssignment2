@@ -9,6 +9,7 @@ public class PlayerControllerX : MonoBehaviour
     private GameObject focalPoint;
 
     public bool hasPowerup;
+    public bool hasPush=false;
     public GameObject powerupIndicator;
     public int powerUpDuration = 5;
 
@@ -29,13 +30,19 @@ public class PlayerControllerX : MonoBehaviour
 
         // Set powerup indicator position to beneath player
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+        powerupIndicator.transform.Rotate(Vector3.up * 150 * Time.deltaTime);
 
     }
 
     // If Player collides with powerup, activate powerup
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Powerup"))
+        if (other.gameObject.CompareTag("PushPowerup"))
+        {
+            Destroy(other.gameObject);
+            hasPush = true;
+        }
+        if (other.gameObject.CompareTag("Powerup") )
         {
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());//i started the cooldown when the player pick up the powerup
