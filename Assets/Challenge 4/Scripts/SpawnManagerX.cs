@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManagerX : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefab;
     public GameObject[] powerupPrefabs;
     private float spawnRangeX = 10;
     private float spawnZMin = 15; // set min spawn Z
@@ -52,7 +52,9 @@ public class SpawnManagerX : MonoBehaviour
         // Spawn number of enemy balls based on wave number
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            int randomIndex = Random.Range(0, enemyPrefab.Length);
+            if (waveCount == 1) randomIndex = 0;//i only spawn normal enemy on the first wave after that its will be randomized
+            Instantiate(enemyPrefab[randomIndex], GenerateSpawnPosition(), enemyPrefab[randomIndex].transform.rotation);
         }
 
         waveCount++;

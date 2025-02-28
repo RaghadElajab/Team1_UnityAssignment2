@@ -45,11 +45,13 @@ public class PlayerControllerX : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PushPowerup"))
         {
+            SoundManager.Instance.PlayPowerupSound();
             Destroy(other.gameObject);
             hasPush = true;
         }
         if (other.gameObject.CompareTag("Powerup"))
         {
+            SoundManager.Instance.PlayPowerupSound();
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());
             hasPowerup = true;
@@ -57,6 +59,8 @@ public class PlayerControllerX : MonoBehaviour
         }
         if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
         {
+            SoundManager.Instance.PlayPowerupSound();
+            SoundManager.Instance.PlayShieldSound();
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
         }
@@ -81,6 +85,7 @@ public class PlayerControllerX : MonoBehaviour
         hasShield = false;
         shieldIndicator.SetActive(false); // Hide shield
         shield.SetActive(false);
+        SoundManager.Instance.StopShieldSound();
     }
 
     // Handle enemy collisions
