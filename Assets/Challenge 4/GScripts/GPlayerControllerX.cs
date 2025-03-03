@@ -63,6 +63,8 @@ public class GPlayerControllerX : MonoBehaviour
 
         if (other.gameObject.CompareTag("Powerup"))
         {
+            SoundManager.Instance.PlayPowerupSound();
+
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());
             hasPowerup = true;
@@ -70,6 +72,8 @@ public class GPlayerControllerX : MonoBehaviour
         }
         if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
         {
+            SoundManager.Instance.PlayPowerupSound();
+            SoundManager.Instance.PlayShieldSound();
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
         }
@@ -84,6 +88,7 @@ public class GPlayerControllerX : MonoBehaviour
         hasShield = false;
         shieldIndicator.SetActive(false); // Hide shield
         shield.SetActive(false);
+        SoundManager.Instance.StopShieldSound();
     }
 
 
@@ -100,6 +105,7 @@ public class GPlayerControllerX : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            SoundManager.Instance.PlayCheerSound();
             Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer =  other.gameObject.transform.position- transform.position;// part of the challenge: enemy used to shoot itself towards the player so i swapped the variables 
            
