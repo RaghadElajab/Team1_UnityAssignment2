@@ -29,10 +29,13 @@ public class EnemyX : MonoBehaviour
         // If enemy collides with either goal, destroy it
         if (other.gameObject.name == "Enemy Goal")
         {
+            SoundManager.Instance.PlayCheerSound();
             Destroy(gameObject);
+           
         } 
         else if (other.gameObject.name == "Player Goal")
         {
+            SoundManager.Instance.PlayBooSound();
             Destroy(gameObject);
         }
 

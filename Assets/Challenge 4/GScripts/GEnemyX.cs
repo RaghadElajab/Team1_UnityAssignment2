@@ -40,6 +40,7 @@ public class GEnemyX : MonoBehaviour
     {
         if (other.gameObject.name == "Player Goal")
         {
+            SoundManager.Instance.PlayBooSound();
             spawner.reset();
 
         }

@@ -5,26 +5,25 @@ using UnityEngine;
 public class GPlayerControllerX : MonoBehaviour
 {
     private Rigidbody playerRb;
-    private float speed = 400;
+    private float speed = 500;
     private GameObject focalPoint;
 
     public bool hasPowerup;
-<<<<<<< Updated upstream
+
+
     public GameObject powerupIndicator;
-=======
-    public bool hasSpeedUp = false;
+
     public bool hasShield = false; // New Shield Powerup
     public GameObject powerupIndicator;
     public GameObject shieldIndicator; // Shield Visual Indicator
-    public GameObject speedIndicator; // Shield Visual Indicator
->>>>>>> Stashed changes
-    public int powerUpDuration = 5;
 
+    public int powerUpDuration = 5;
+    public GameObject shield;
     private float normalStrength = 10; // how hard to hit enemy without powerup
     private float powerupStrength = 25; // how hard to hit enemy with powerup
 
     private float posZ;
-    private float posY;
+ 
 
     public float goallimit = 10f;
     void Start()
@@ -32,7 +31,7 @@ public class GPlayerControllerX : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
         posZ = -7 ;
-        posY = transform.position.y; ;
+        
     }
    
     void Update()
@@ -40,8 +39,12 @@ public class GPlayerControllerX : MonoBehaviour
         // Add force to player in direction of the focal point (and camera)
         float horizontalInput = Input.GetAxis("Horizontal"); //horizontal input instead of vertical
         playerRb.AddForce(focalPoint.transform.right * horizontalInput * speed * Time.deltaTime);
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+        powerupIndicator.transform.Rotate(Vector3.up * 150 * Time.deltaTime);
 
-        transform.position = new Vector3(transform.position.x, posY, posZ);
+        shieldIndicator.transform.position = transform.position + new Vector3(0, 0.2f, 0); ; // Shield follows player
+        shieldIndicator.transform.Rotate(Vector3.up * 100 * Time.deltaTime);
+        transform.position = new Vector3(transform.position.x, transform.position.y, posZ);
 
         if (transform.position.x > goallimit)
         {
@@ -62,16 +65,17 @@ public class GPlayerControllerX : MonoBehaviour
     // If Player collides with powerup, activate powerup
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.CompareTag("Powerup"))
         {
+            SoundManager.Instance.PlayPowerupSound();
+
             Destroy(other.gameObject);
-            StartCoroutine(PowerupCooldown());//i started the cooldown when the player pick up the powerup
+            StartCoroutine(PowerupCooldown());
             hasPowerup = true;
             powerupIndicator.SetActive(true);
         }
-<<<<<<< Updated upstream
-    }
-=======
+
         if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
         {
             SoundManager.Instance.PlayPowerupSound();
@@ -79,13 +83,8 @@ public class GPlayerControllerX : MonoBehaviour
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
         }
-        if (other.gameObject.CompareTag("SpeedPowerUp")) // Shield Powerup Pickup
-        {
-            SoundManager.Instance.PlayPowerupSound();
-            Destroy(other.gameObject);
-            StartCoroutine(SpeedCooldown());
-        }
     }
+
     IEnumerator ShieldCooldown()
     {
         hasShield = true;
@@ -98,6 +97,7 @@ public class GPlayerControllerX : MonoBehaviour
         shield.SetActive(false);
         SoundManager.Instance.StopShieldSound();
     }
+
     IEnumerator SpeedCooldown()
     {
         hasSpeedUp = true;
@@ -111,7 +111,9 @@ public class GPlayerControllerX : MonoBehaviour
         SoundManager.Instance.StopShieldSound();
     }
 
->>>>>>> Stashed changes
+
+=======
+
 
     // Coroutine to count down powerup duration
     IEnumerator PowerupCooldown()
@@ -126,6 +128,7 @@ public class GPlayerControllerX : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            SoundManager.Instance.PlayCheerSound();
             Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer =  other.gameObject.transform.position- transform.position;// part of the challenge: enemy used to shoot itself towards the player so i swapped the variables 
            
