@@ -4,84 +4,80 @@ using UnityEngine;
 
 public class PushAway : MonoBehaviour
 {
-    public float maxRadius = 10f;   // Max expansion size
-    public float expansionSpeed = 20f; // Speed at which the collider grows
-    public float maxForce = 50f;   // Strongest push when close
-    public float minForce = 10f;   // Weakest push when far
+    public float maxRadius=10f;
+    public float expansionSpeed=20f;
+    public float maxForce=50f;
+    public float minForce=10f;
     public GameObject pushpowerupIndicator;
-    public int powerUpDuration = 5;
+    public int powerUpDuration=5;
     private SphereCollider pushCollider;
     private PlayerControllerX playerScript;
-    private bool isExpanding = false;
+    private bool isExpanding=false;
     private bool hasPowerup;
+
     private Vector3 initialPosition;
     public GameObject player;
     private Rigidbody prb;
 
     void Start()
     {
-        prb = player.GetComponent<Rigidbody>();
-        pushCollider = GetComponent<SphereCollider>();
-        pushCollider.isTrigger = true;
-        pushCollider.radius = 0.1f; // Start small
-        pushCollider.enabled = false; // Disable initially
-        playerScript = player.GetComponent<PlayerControllerX>();
+        prb=player.GetComponent<Rigidbody>();
+        pushCollider=GetComponent<SphereCollider>();
+        pushCollider.radius=0.1f;
+        pushCollider.enabled=false;
+        playerScript=player.GetComponent<PlayerControllerX>();
     }
 
     void Update()
     {
-       hasPowerup = playerScript.hasPush;
-        transform.position = player.transform.position;
-        if (hasPowerup)
+       hasPowerup=playerScript.hasPush;
+        transform.position=player.transform.position;
+        if (hasPowerup)//check if player has correct powerup
         {
             pushpowerupIndicator.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Space) & hasPowerup)
+        if (Input.GetKeyDown(KeyCode.Space) & hasPowerup)//if click space i start it
         {
             StartCoroutine(ExpandCollider());
         }
+        //effects for the indicator
         pushpowerupIndicator.transform.position = transform.position + new Vector3(0, -0.2f, 0);
         pushpowerupIndicator.transform.Rotate(Vector3.up * 200 * Time.deltaTime);
     }
-    IEnumerator PowerupCooldown()
+    IEnumerator PowerupCooldown()//sets everything to false after a certain amount of time
     {
         yield return new WaitForSeconds(powerUpDuration);
-        hasPowerup = false;
-        playerScript.hasPush = false;
+        hasPowerup=false;
+        playerScript.hasPush=false;
         pushpowerupIndicator.SetActive(false);
     }
     IEnumerator ExpandCollider()
     {
-        prb.AddForce(Vector3.up*5, ForceMode.Impulse);
-        StartCoroutine(PowerupCooldown());
-        pushCollider.enabled = true;
-        isExpanding = true;
-        pushCollider.radius = 0.1f;
-        initialPosition = transform.position;
-
-        while (pushCollider.radius < maxRadius)
+        prb.AddForce(Vector3.up*5, ForceMode.Impulse);//jump
+        StartCoroutine(PowerupCooldown());//start cooldown
+        pushCollider.enabled=true;
+        isExpanding=true;
+        pushCollider.radius=0.1f;//start small
+        initialPosition=transform.position;//store starting pos
+        while (pushCollider.radius<maxRadius)
         {
-            pushCollider.radius += expansionSpeed * Time.deltaTime;
+            pushCollider.radius+=expansionSpeed*Time.deltaTime;//expand it over time until it reaches max
             yield return null;
         }
-
-        pushCollider.enabled = false;
-        isExpanding = false;
+        pushCollider.enabled=false;//disable it when done expanding
+        isExpanding=false;
     }
-
     private void OnTriggerEnter(Collider other)
-    {
-       
-        if (other.CompareTag("Enemy") && isExpanding)
+    {  
+        if (other.CompareTag("Enemy") && isExpanding)//if it triggers with an enemy it adds a force to the rigidbody
         {
-            Rigidbody enemyRb = other.GetComponent<Rigidbody>();
-            if (enemyRb != null)
+            Rigidbody eRb=other.GetComponent<Rigidbody>();
+            if (eRb!=null)
             {
-                float forceFactor = 1 - (pushCollider.radius / maxRadius); // Smaller collider = stronger push
-                float force = minForce + (maxForce - minForce) * forceFactor; // Adjust force based on size
-
-                Vector3 pushDirection = (other.transform.position - initialPosition).normalized;
-                enemyRb.AddForce(pushDirection * force, ForceMode.Impulse);
+                float strength=1-(pushCollider.radius/maxRadius); //strength of push depends on size
+                float force=minForce+(maxForce-minForce)*strength;//the force is multiplied by strength factor
+                Vector3 pushDirection=(other.transform.position-initialPosition).normalized;
+                eRb.AddForce(pushDirection*force, ForceMode.Impulse);
             }
         }
     }

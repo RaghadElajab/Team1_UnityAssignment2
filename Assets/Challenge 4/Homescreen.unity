@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIDoc: {fileID: 1024266469}
-  buttonClickSound: {fileID: 8300000, guid: 8697596247bb8684b914e83a8f1822d1, type: 3}
+  button: {fileID: 8300000, guid: 8697596247bb8684b914e83a8f1822d1, type: 3}
   hSoundMg: {fileID: 1813147852}
 --- !u!4 &1024266471
 Transform:
