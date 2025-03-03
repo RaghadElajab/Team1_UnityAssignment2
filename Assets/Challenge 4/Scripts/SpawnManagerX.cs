@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 
 public class SpawnManagerX : MonoBehaviour
 {
@@ -12,35 +10,20 @@ public class SpawnManagerX : MonoBehaviour
     private float spawnZMin = 15; // set min spawn Z
     private float spawnZMax = 25; // set max spawn Z
 
-    public UIDocument UIDoc;
-    private static Label hscounter;
-    private static Label counter;
-    private static int highScore = 0;
-    private static int Score = 0;
-
     public int enemyCount;
     public int waveCount = 1;
 
     public GameObject player;
 
-    void Start()
-    {
-        counter = UIDoc.rootVisualElement.Q<Label>("PlayerScore");
-        hscounter = UIDoc.rootVisualElement.Q<Label>("HighScore");
-    }
-
     // Update is called once per frame
     void Update()
     {
-     
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length; //part of challenge: used to say "powerup" i changed it to enemy
 
         if (enemyCount == 0)
         {
             SpawnEnemyWave(waveCount);
         }
-        counter.text = "" + Score;
-        hscounter.text = "" + highScore;
     }
 
     // Generate random spawn position for powerups and enemy balls
@@ -84,14 +67,5 @@ public class SpawnManagerX : MonoBehaviour
         player.transform.position = new Vector3(0, 0, 2);
         player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-    }
-
-    public void incScore()
-    {
-        Score++;
-    }
-    public void decScore()
-    {
-        Score--;
     }
 }
