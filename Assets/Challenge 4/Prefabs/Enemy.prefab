@@ -150,4 +150,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  spawner: {fileID: 2904618504697860743, guid: 3a229d68d41a1a44a9eca810aa52d456, type: 3}
