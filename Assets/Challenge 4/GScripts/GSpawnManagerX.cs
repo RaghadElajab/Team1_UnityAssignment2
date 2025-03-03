@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GSpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public GameObject powerupPrefab;
+    public GameObject[] powerupPrefabs;
 
     private float spawnX = 0;
     private float spawnZ = 11.866f; 
@@ -50,13 +50,14 @@ public class GSpawnManagerX : MonoBehaviour
     {
         StartCoroutine(showCount(enemiesToSpawn));
 
-        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // make powerups spawn at player end
+        Vector3 powerupSpawnPos = new Vector3(player.transform.position.x + Random.Range(4f, 7f) * (Random.value > 0.5f ? 1 : -1), -0.67f, player.transform.position.z);
 
 
         // If no powerups remain, spawn a powerup
         if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
         {
-            Instantiate(powerupPrefab, new Vector3(spawnX, -0.64f, spawnZ) + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            int randomIndex = Random.Range(0, powerupPrefabs.Length); // Pick a random powerup
+            Instantiate(powerupPrefabs[randomIndex], powerupSpawnPos, powerupPrefabs[randomIndex].transform.rotation);
         }
 
         // Spawn number of enemy balls based on wave number
