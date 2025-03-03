@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8909246940881005432}
   - component: {fileID: 8701247569819616896}
   - component: {fileID: 8081716314530146444}
-  - component: {fileID: 2875967790344232780}
+  - component: {fileID: 8371710928072226523}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: defense 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae4ff49dfb4c229488b12d99e4b0e3fc, type: 2}
+  - {fileID: 2100000, guid: 63c2a8499051b424fbd4f88315b1f1da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2875967790344232780
+--- !u!114 &8371710928072226523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,8 +146,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8932280921958007952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da2a5bfc8f62c41e8ad989c97bd3886e, type: 3}
+  m_Script: {fileID: 11500000, guid: c3fe747ef3b298940ab6c7d76f14dc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  spawner: {fileID: 2904618504697860743, guid: 3a229d68d41a1a44a9eca810aa52d456, type: 3}
+  spawner: {fileID: 1132855512881525516, guid: 932d8acbf00f05d44bdcbd380db7bb6b, type: 3}

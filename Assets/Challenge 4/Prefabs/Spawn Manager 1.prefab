@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3123057383218344259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8135318506610147921}
+  - component: {fileID: 2904618504697860743}
+  m_Layer: 0
+  m_Name: Spawn Manager 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8135318506610147921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123057383218344259}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.7215009, y: -2.9286633, z: 3.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2904618504697860743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123057383218344259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 448928cc965a748ab8998f99ee84d3a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab:
+  - {fileID: 8932280921958007952, guid: 47045ccb8f3944b9b8a55f6b07f0aefc, type: 3}
+  - {fileID: 8932280921958007952, guid: 232292c7b12534d4f9517bef08824aa6, type: 3}
+  - {fileID: 6706332219670660590, guid: 5671a90dd847bd44a82ed05fa6e27ab0, type: 3}
+  powerupPrefabs:
+  - {fileID: 4446131693967519089, guid: c5497424856514b2ba61b78375567988, type: 3}
+  - {fileID: 4446131693967519089, guid: a73d3e1587de14248804af59470fbc3d, type: 3}
+  - {fileID: 4446131693967519089, guid: 41174508d22a6f54582d17050121d172, type: 3}
+  UIDoc: {fileID: 5058833396563215489, guid: 4c70a820147aa334e88691ab9f491991, type: 3}
+  enemyCount: 0
+  waveCount: 1
+  player: {fileID: 7702887536949648982, guid: b05ddc1e244045a49a44ee7d9c46200a, type: 3}

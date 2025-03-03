@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 public class GSpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
+
+    public GameObject powerupPrefab;
+
     public GameObject[] powerupPrefabs;
+
 
     private float spawnX = 0;
     private float spawnZ = 11.866f; 
@@ -24,6 +28,10 @@ public class GSpawnManagerX : MonoBehaviour
     private bool spawningrn=false;
 
     public HomePageHandler homepage;
+    private GameObject newEnemy;
+    private GEnemyX enemyscript;
+    private GEnemyX2 enemy2script;
+    private GEnemyX3 enemy3script;
 
     void Start()
     {
@@ -63,11 +71,39 @@ public class GSpawnManagerX : MonoBehaviour
         // Spawn number of enemy balls based on wave number
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            float delay = (3+(i * 2f));
+            float delay = (3 + (i * 2f));
             yield return new WaitForSeconds(delay);
-            GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-            GEnemyX enemyscript = newEnemy.GetComponent<GEnemyX>();
-            enemyscript.spawner = this;
+            if (enemiesToSpawn >= 3)
+            {
+                int randomIndex = Random.Range(0, 3);
+                if (randomIndex==0)
+                {
+                    newEnemy = Instantiate(enemy2Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+                    enemy2script = newEnemy.GetComponent<GEnemyX2>();
+                    enemy2script.spawner = this;
+
+                }
+                else if (randomIndex == 1)
+                {
+                    newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+                    enemyscript = newEnemy.GetComponent<GEnemyX>();
+                    enemyscript.spawner = this;
+
+                }
+                else
+                {
+                    newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+                    enemy3script = newEnemy.GetComponent<GEnemyX3>();
+                    enemy3script.spawner = this;
+                }
+
+            }
+            else
+            {
+                newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+                enemyscript = newEnemy.GetComponent<GEnemyX>();
+                enemyscript.spawner = this;
+            }
         }
 
         waveCount++;
