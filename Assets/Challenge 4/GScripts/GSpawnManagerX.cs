@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 public class GSpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
+
+    public GameObject enemy2Prefab;
+    public GameObject enemy3Prefab;
     public GameObject[] powerupPrefabs;
+
 
     private float spawnX = 0;
     private float spawnZ = 11.866f; 
