@@ -28,10 +28,6 @@ public class GSpawnManagerX : MonoBehaviour
     private bool spawningrn=false;
 
     public HomePageHandler homepage;
-    private GameObject newEnemy;
-    private GEnemyX enemyscript;
-    private GEnemyX2 enemy2script;
-    private GEnemyX3 enemy3script;
 
     void Start()
     {
@@ -58,51 +54,24 @@ public class GSpawnManagerX : MonoBehaviour
     {
         StartCoroutine(showCount(enemiesToSpawn));
 
-        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // make powerups spawn at player end
+        Vector3 powerupSpawnPos = new Vector3(player.transform.position.x + Random.Range(4f, 7f) * (Random.value > 0.5f ? 1 : -1), -0.67f, player.transform.position.z);
 
 
         // If no powerups remain, spawn a powerup
         if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
         {
-            Instantiate(powerupPrefab, new Vector3(spawnX, -0.64f, spawnZ) + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            int randomIndex = Random.Range(0, powerupPrefabs.Length); // Pick a random powerup
+            Instantiate(powerupPrefabs[randomIndex], powerupSpawnPos, powerupPrefabs[randomIndex].transform.rotation);
         }
 
         // Spawn number of enemy balls based on wave number
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            float delay = (3 + (i * 2f));
+            float delay = (3+(i * 2f));
             yield return new WaitForSeconds(delay);
-            if (enemiesToSpawn >= 3)
-            {
-                int randomIndex = Random.Range(0, 3);
-                if (randomIndex==0)
-                {
-                    newEnemy = Instantiate(enemy2Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemy2script = newEnemy.GetComponent<GEnemyX2>();
-                    enemy2script.spawner = this;
-
-                }
-                else if (randomIndex == 1)
-                {
-                    newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemyscript = newEnemy.GetComponent<GEnemyX>();
-                    enemyscript.spawner = this;
-
-                }
-                else
-                {
-                    newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemy3script = newEnemy.GetComponent<GEnemyX3>();
-                    enemy3script.spawner = this;
-                }
-
-            }
-            else
-            {
-                newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                enemyscript = newEnemy.GetComponent<GEnemyX>();
-                enemyscript.spawner = this;
-            }
+            GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+            GEnemyX enemyscript = newEnemy.GetComponent<GEnemyX>();
+            enemyscript.spawner = this;
         }
 
         waveCount++;

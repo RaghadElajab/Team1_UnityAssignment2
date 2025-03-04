@@ -9,7 +9,6 @@ TagManager:
   - pcollider
   - PushPowerup
   - ShieldPowerUp
-  - SpeedPowerUp
   layers:
   - Default
   - TransparentFX
