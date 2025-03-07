@@ -6,7 +6,8 @@ public class defenceEnemy : MonoBehaviour
     public float pushStrength = 5f;
     private Rigidbody defenceRb;
     private GameObject target;
-  
+    public SpawnManagerX spawner;
+
 
     private void Start()
     {
@@ -32,12 +33,15 @@ public class defenceEnemy : MonoBehaviour
     {
         if (other.gameObject.name == "Enemy Goal")
         {
-            SoundManager.Instance.PlayCheerSound();
+            //SoundManager.Instance.PlayCheerSound();
             Destroy(gameObject);
+            spawner.incScore();
+
         }
         else if (other.gameObject.name == "Player Goal")
         {
-            SoundManager.Instance.PlayBooSound();
+            //SoundManager.Instance.PlayBooSound();
+            spawner.decScore();
 
             Destroy(gameObject);
         }

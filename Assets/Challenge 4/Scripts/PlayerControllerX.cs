@@ -20,6 +20,10 @@ public class PlayerControllerX : MonoBehaviour
 
     void Start()
     {
+        if (powerupIndicator == null)
+        {
+            Debug.LogError("powerupIndicator is not assigned!");
+        }
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
         shield.SetActive(false);
@@ -31,6 +35,8 @@ public class PlayerControllerX : MonoBehaviour
         // Move player in focal point direction
         float verticalInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed * Time.deltaTime);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        playerRb.AddForce(focalPoint.transform.right * horizontalInput * speed * Time.deltaTime);
 
         // Update powerup & shield indicators
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
@@ -43,28 +49,37 @@ public class PlayerControllerX : MonoBehaviour
     // Handle powerup pickups
     private void OnTriggerEnter(Collider other)
     {
+     
+
+        Debug.Log("Collided with: " + other.gameObject.name);
+
         if (other.gameObject.CompareTag("PushPowerup"))
         {
-            SoundManager.Instance.PlayPowerupSound();
             Destroy(other.gameObject);
             hasPush = true;
         }
         if (other.gameObject.CompareTag("Powerup"))
         {
-            SoundManager.Instance.PlayPowerupSound();
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());
             hasPowerup = true;
-            powerupIndicator.SetActive(true);
+
+            if (powerupIndicator != null)
+            {
+                powerupIndicator.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("powerupIndicator is NULL!");
+            }
         }
-        if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
+        if (other.gameObject.CompareTag("ShieldPowerUp"))
         {
-            SoundManager.Instance.PlayPowerupSound();
-            SoundManager.Instance.PlayShieldSound();
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
         }
     }
+
 
     // Powerup Countdown
     IEnumerator PowerupCooldown()
@@ -85,7 +100,6 @@ public class PlayerControllerX : MonoBehaviour
         hasShield = false;
         shieldIndicator.SetActive(false); // Hide shield
         shield.SetActive(false);
-        SoundManager.Instance.StopShieldSound();
     }
 
     // Handle enemy collisions

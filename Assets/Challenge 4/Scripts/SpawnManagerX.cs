@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class SpawnManagerX : MonoBehaviour
 {
@@ -10,11 +12,34 @@ public class SpawnManagerX : MonoBehaviour
     private float spawnZMin = 15; // set min spawn Z
     private float spawnZMax = 25; // set max spawn Z
 
+    public UIDocument UIDoc;
+    private static Label hscounter;
+    private static Label counter;
+    private static int highScore = 0;
+    private static int Score = 0;
+    public SGameOverController GameOver;
+
+    private float interval = 5f;
+    private float duration = 4f;
+    public GameObject tornado;
+
     public int enemyCount;
     public int waveCount = 1;
 
     public GameObject player;
+    void Awake()
+    {
+        counter = UIDoc.rootVisualElement.Q<Label>("PlayerScore");
+        hscounter = UIDoc.rootVisualElement.Q<Label>("HighScore");
+    }
+    void Start()
+    {
+        
+        hscounter.text = "" + highScore;
+        StartCoroutine(SpawnTornados());
 
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -23,6 +48,15 @@ public class SpawnManagerX : MonoBehaviour
         if (enemyCount == 0)
         {
             SpawnEnemyWave(waveCount);
+        }
+        counter.text = "" + Score;
+        if (Score > highScore)
+            highScore = Score;
+
+        if (Score < 0)
+        {
+            GameOver.showGameOver(highScore);
+       
         }
     }
 
@@ -68,4 +102,48 @@ public class SpawnManagerX : MonoBehaviour
         player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
+
+    public void incScore()
+    {
+        Score++;
+    }
+    public void decScore()
+    {
+        Score--;
+    }
+    
+    public void reset()
+    {
+        enemyCount = 0;
+        waveCount = 1;
+        Score = 0;
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void resetScore()
+    {
+        enemyCount = 0;
+        waveCount = 1;
+        Score = 0;
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
+    }
+    public IEnumerator SpawnTornados()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(interval);
+            GameObject newTornado= Instantiate(tornado, GenerateSpawnPosition(), tornado.transform.rotation);
+            yield return new WaitForSeconds(duration);
+            Destroy(newTornado);
+        }
+
+    }
+
+
 }

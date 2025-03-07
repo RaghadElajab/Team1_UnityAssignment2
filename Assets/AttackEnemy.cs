@@ -6,6 +6,7 @@ public class AttackEnemy : MonoBehaviour
 {
     public float speed;
     private Rigidbody enemyRb;
+    public SpawnManagerX spawner;
 
     void Start()
     {
@@ -32,12 +33,15 @@ public class AttackEnemy : MonoBehaviour
         // If enemy collides with either goal, destroy it
         if (other.gameObject.name == "Enemy Goal")
         {
-            SoundManager.Instance.PlayCheerSound();
+            //SoundManager.Instance.PlayCheerSound();
             Destroy(gameObject);
+            spawner.incScore();
+
         }
         else if (other.gameObject.name == "Player Goal")
         {
-            SoundManager.Instance.PlayBooSound();
+            //SoundManager.Instance.PlayBooSound();
+            spawner.decScore();
 
             Destroy(gameObject);
         }

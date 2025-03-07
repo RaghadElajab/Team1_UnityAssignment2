@@ -10,6 +10,7 @@ public class GEnemyX : MonoBehaviour
     private Vector3 lookDirection;
     public GSpawnManagerX spawner;
     private float shootdelay=3f;
+    public GameOverController GameOver;
 
     private float goalMinX = -4.33f;
     private float goalMaxX = 4.809f;
@@ -40,8 +41,7 @@ public class GEnemyX : MonoBehaviour
     {
         if (other.gameObject.name == "Player Goal")
         {
-            SoundManager.Instance.PlayBooSound();
-            spawner.reset();
+            GameOver.showGameOver();
 
         }
 

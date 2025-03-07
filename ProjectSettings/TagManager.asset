@@ -9,6 +9,7 @@ TagManager:
   - pcollider
   - PushPowerup
   - ShieldPowerUp
+  - EnemyGoal
   layers:
   - Default
   - TransparentFX

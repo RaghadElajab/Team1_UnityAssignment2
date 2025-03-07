@@ -9,9 +9,11 @@ public class GPlayerControllerX : MonoBehaviour
     private GameObject focalPoint;
 
     public bool hasPowerup;
+    public bool hasSpeedUp = false;
     public bool hasShield = false; // New Shield Powerup
     public GameObject powerupIndicator;
     public GameObject shieldIndicator; // Shield Visual Indicator
+    public GameObject speedIndicator; // Shield Visual Indicator
     public int powerUpDuration = 5;
     public GameObject shield;
     private float normalStrength = 10; // how hard to hit enemy without powerup
@@ -63,7 +65,7 @@ public class GPlayerControllerX : MonoBehaviour
 
         if (other.gameObject.CompareTag("Powerup"))
         {
-            SoundManager.Instance.PlayPowerupSound();
+            //SoundManager.Instance.PlayPowerupSound();
 
             Destroy(other.gameObject);
             StartCoroutine(PowerupCooldown());
@@ -72,10 +74,16 @@ public class GPlayerControllerX : MonoBehaviour
         }
         if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
         {
-            SoundManager.Instance.PlayPowerupSound();
-            SoundManager.Instance.PlayShieldSound();
+            //SoundManager.Instance.PlayPowerupSound();
+            //SoundManager.Instance.PlayShieldSound();
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
+        }
+        if (other.gameObject.CompareTag("SpeedPowerUp")) // Shield Powerup Pickup
+        {
+            //SoundManager.Instance.PlayPowerupSound();
+            Destroy(other.gameObject);
+            StartCoroutine(SpeedCooldown());
         }
     }
     IEnumerator ShieldCooldown()
@@ -88,7 +96,19 @@ public class GPlayerControllerX : MonoBehaviour
         hasShield = false;
         shieldIndicator.SetActive(false); // Hide shield
         shield.SetActive(false);
-        SoundManager.Instance.StopShieldSound();
+        //SoundManager.Instance.StopShieldSound();
+    }
+    IEnumerator SpeedCooldown()
+    {
+        hasSpeedUp = true;
+        speedIndicator.SetActive(true); 
+        speed=500;
+        yield return new WaitForSeconds(powerUpDuration); 
+
+        hasSpeedUp = false;
+        speedIndicator.SetActive(false);
+        speed = 20;
+        //SoundManager.Instance.StopShieldSound();
     }
 
 
@@ -105,7 +125,7 @@ public class GPlayerControllerX : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            SoundManager.Instance.PlayCheerSound();
+            //SoundManager.Instance.PlayCheerSound();
             Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer =  other.gameObject.transform.position- transform.position;// part of the challenge: enemy used to shoot itself towards the player so i swapped the variables 
            

@@ -7,6 +7,7 @@ public class EnemyX : MonoBehaviour
     public float speed;
     private Rigidbody enemyRb;
     private GameObject playerGoal; 
+    public SpawnManagerX spawner;
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +30,17 @@ public class EnemyX : MonoBehaviour
         // If enemy collides with either goal, destroy it
         if (other.gameObject.name == "Enemy Goal")
         {
-            SoundManager.Instance.PlayCheerSound();
+            //SoundManager.Instance.PlayCheerSound();
             Destroy(gameObject);
+            spawner.incScore();
            
         } 
         else if (other.gameObject.name == "Player Goal")
         {
-            SoundManager.Instance.PlayBooSound();
+            //SoundManager.Instance.PlayBooSound();
             Destroy(gameObject);
+            spawner.decScore();
+
         }
 
     }
