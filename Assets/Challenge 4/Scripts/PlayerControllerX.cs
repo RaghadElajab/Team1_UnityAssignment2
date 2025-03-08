@@ -20,10 +20,7 @@ public class PlayerControllerX : MonoBehaviour
 
     void Start()
     {
-        if (powerupIndicator == null)
-        {
-            Debug.LogError("powerupIndicator is not assigned!");
-        }
+     
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
         shield.SetActive(false);
@@ -50,9 +47,6 @@ public class PlayerControllerX : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
      
-
-        Debug.Log("Collided with: " + other.gameObject.name);
-
         if (other.gameObject.CompareTag("PushPowerup"))
         {
             Destroy(other.gameObject);
@@ -92,6 +86,7 @@ public class PlayerControllerX : MonoBehaviour
     // Shield Countdown
     IEnumerator ShieldCooldown()
     {
+        SoundManager.Instance.PlayShieldSound();
         hasShield = true;
         shieldIndicator.SetActive(true); // Show shield
         shield.SetActive(true);
@@ -99,7 +94,9 @@ public class PlayerControllerX : MonoBehaviour
 
         hasShield = false;
         shieldIndicator.SetActive(false); // Hide shield
+        SoundManager.Instance.StopShieldSound();
         shield.SetActive(false);
+
     }
 
     // Handle enemy collisions

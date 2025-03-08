@@ -149,6 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f139fbd40ccf614d99b284207832163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  spawner: {fileID: 1132855512881525516, guid: 18d2cc789891c7f408bde390602d7dc9, type: 3}
   GameOver: {fileID: 7360538524986900882, guid: 8dba793ffc0c7a24aa458f60f97ad3ff, type: 3}
+  spawner: {fileID: 1132855512881525516, guid: 932d8acbf00f05d44bdcbd380db7bb6b, type: 3}
+  goalMinX: -4.33
+  goalMaxX: 4.809
+  goalZ: -9.332

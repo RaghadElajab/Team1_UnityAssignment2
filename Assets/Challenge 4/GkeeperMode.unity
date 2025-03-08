@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cheerSound: {fileID: 8300000, guid: 906e723c8ed5b0d4e9ae1757118fd437, type: 3}
-  booSound: {fileID: 8300000, guid: ece976480a18e454a95edcf1117cea98, type: 3}
+  booSound: {fileID: 8300000, guid: 200f052b4d7aa5042b456326d4625235, type: 3}
   powerupSound: {fileID: 8300000, guid: 8697596247bb8684b914e83a8f1822d1, type: 3}
   shieldSound: {fileID: 8300000, guid: 7be15bacfa4625549a60096105f1a113, type: 3}
   sfxVolume: 0.4

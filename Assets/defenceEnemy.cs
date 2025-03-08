@@ -1,60 +1,28 @@
 using UnityEngine;
 
-public class defenceEnemy : MonoBehaviour
+public class defenceEnemy : EnemyX
 {
-    public float speed = 5f;
     public float pushStrength = 5f;
     private Rigidbody defenceRb;
     private GameObject target;
-    public SpawnManagerX spawner;
 
-
-    private void Start()
+    void Start()
     {
         defenceRb = GetComponent<Rigidbody>();
         target = GameObject.Find("Player");
     }
 
-    private void Update()
+    void Update()
     {
-        MoveTowardsGoal();
+        Behavior();
     }
 
-    private void MoveTowardsGoal()
+    public override void Behavior()
     {
         if (target != null)
         {
             Vector3 lookDirection = (target.transform.position - transform.position).normalized;
             defenceRb.AddForce(lookDirection * speed * Time.deltaTime);
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.name == "Enemy Goal")
-        {
-            //SoundManager.Instance.PlayCheerSound();
-            Destroy(gameObject);
-            spawner.incScore();
-
-        }
-        else if (other.gameObject.name == "Player Goal")
-        {
-            //SoundManager.Instance.PlayBooSound();
-            spawner.decScore();
-
-            Destroy(gameObject);
-        }
-        if (other.gameObject.CompareTag("Player")) // Push player away
-        {
-            Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
-            if (enemyRigidbody != null)
-            {
-                Vector3 pushDirection = other.transform.position - transform.position;
-                pushDirection.y = 0; // Keep push on the horizontal plane
-
-                enemyRigidbody.AddForce(pushDirection.normalized * pushStrength, ForceMode.Impulse);
-            }
         }
     }
 

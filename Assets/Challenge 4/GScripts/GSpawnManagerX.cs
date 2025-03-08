@@ -57,57 +57,45 @@ public class GSpawnManagerX : MonoBehaviour
     {
         StartCoroutine(showCount(enemiesToSpawn));
 
-        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // make powerups spawn at player end
+        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // Spawn powerups near the player
 
-
-        // If no powerups remain, spawn a powerup
-        if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
+        // Spawn powerup if none exists
+        if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0)
         {
             Instantiate(powerupPrefab, new Vector3(spawnX, -0.64f, spawnZ) + powerupSpawnOffset, powerupPrefab.transform.rotation);
         }
 
-        // Spawn number of enemy balls based on wave number
+        // Spawn enemies
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             float delay = (3 + (i * 2f));
             yield return new WaitForSeconds(delay);
-            if (enemiesToSpawn >= 0)//umber of levels till new enemy ver appears
+
+            GameObject newEnemy;
+            int randomIndex = Random.Range(0, 3);
+
+            if (randomIndex == 0)
             {
-                int randomIndex = Random.Range(0, 3);
-                if (randomIndex == 0)
-                {
-                    newEnemy = Instantiate(enemy2Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemy2script = newEnemy.GetComponent<GEnemyX2>();
-                    enemy2script.spawner = this;
-
-                }
-                else if (randomIndex == 1)
-                {
-                    newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemyscript = newEnemy.GetComponent<GEnemyX>();
-                    enemyscript.spawner = this;
-
-                }
-                else
-                {
-                    newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                    enemy3script = newEnemy.GetComponent<GEnemyX3>();
-                    enemy3script.spawner = this;
-                }
-
+                newEnemy = Instantiate(enemy2Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemy2Prefab.transform.rotation);
+            }
+            else if (randomIndex == 1)
+            {
+                newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
             }
             else
             {
-                newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-                enemyscript = newEnemy.GetComponent<GEnemyX>();
-                enemyscript.spawner = this;
+                newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemy3Prefab.transform.rotation);
             }
+
+      
+            GEnemyX enemyScript = newEnemy.GetComponent<GEnemyX>();
+            enemyScript.spawner = this;
         }
 
         waveCount++;
         spawningrn = false;
-
     }
+
 
     // Move player back to position in front of own goal
     void ResetPlayerPosition()

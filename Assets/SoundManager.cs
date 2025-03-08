@@ -43,17 +43,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBooSound()
     {
-        if (booCoroutine != null) StopCoroutine(booCoroutine);
-        booCoroutine = StartCoroutine(PlayBooForDuration(2f));
-    }
+        PlaySFX(booSound);
 
-    private IEnumerator PlayBooForDuration(float duration)
-    {
-        sfxSource.volume = sfxVolume;
-        sfxSource.clip = booSound;
-        sfxSource.Play();
-        yield return new WaitForSeconds(duration);
-        sfxSource.Stop();
     }
 
     public void PlayPowerupSound()
