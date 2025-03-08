@@ -10,7 +10,6 @@ public class GSpawnManagerX : MonoBehaviour
     public GameObject enemy2Prefab;
     public GameObject enemy3Prefab;
     public GameObject[] powerupPrefabs;
-    public GameObject powerupPrefab;
     private static int highScore = 0;
     private float spawnX = 0;
     private float spawnZ = 11.866f;
@@ -26,7 +25,6 @@ public class GSpawnManagerX : MonoBehaviour
     private int enemiesToSpawn = 0;
     private bool spawningrn = false;
 
-    public HomePageHandler homepage;
     private GameObject newEnemy;
     private GEnemyX enemyscript;
     private GEnemyX2 enemy2script;
@@ -57,12 +55,17 @@ public class GSpawnManagerX : MonoBehaviour
     {
         StartCoroutine(showCount(enemiesToSpawn));
 
-        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // Spawn powerups near the player
+        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // Adjusted for player positioning
 
         // Spawn powerup if none exists
         if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0)
         {
-            Instantiate(powerupPrefab, new Vector3(spawnX, -0.64f, spawnZ) + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            int randomIndex = Random.Range(0, powerupPrefabs.Length);
+
+            float randX = Random.Range(-player.GetComponent<GPlayerControllerX>().goallimit, player.GetComponent<GPlayerControllerX>().goallimit);
+            float spawnZ = -7f; 
+
+            Instantiate(powerupPrefabs[randomIndex], new Vector3(randX, -0.64f, spawnZ), powerupPrefabs[randomIndex].transform.rotation);
         }
 
         // Spawn enemies
@@ -87,7 +90,6 @@ public class GSpawnManagerX : MonoBehaviour
                 newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemy3Prefab.transform.rotation);
             }
 
-      
             GEnemyX enemyScript = newEnemy.GetComponent<GEnemyX>();
             enemyScript.spawner = this;
         }
