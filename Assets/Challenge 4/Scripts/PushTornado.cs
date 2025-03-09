@@ -21,11 +21,12 @@ public class TornadoMovement : MonoBehaviour
 
     void Update()
     {
-        MoveTornado();
+        StartCoroutine(MoveTornado());
     }
 
-    void MoveTornado()
+    IEnumerator MoveTornado()
     {
+        yield return new WaitForSeconds(0f);
         Vector3 newPos = transform.position + direction * movementSpeed * Time.deltaTime;
 
         if (newPos.x < minX)
@@ -37,7 +38,7 @@ public class TornadoMovement : MonoBehaviour
             newPos.z = minZ;
         else if (newPos.z > maxZ)
             newPos.z = maxZ;
-
+        newPos.y = -0.644085f;
         transform.position = newPos;
     }
 
