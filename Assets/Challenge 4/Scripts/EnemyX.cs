@@ -6,7 +6,7 @@ public class EnemyX : MonoBehaviour
 {
     public float speed;
     private Rigidbody enemyRb;
-    private  GameObject playerGoal; 
+    private static GameObject playerGoal; 
     public SpawnManagerX spawner;
 
     // Start is called before the first frame update
