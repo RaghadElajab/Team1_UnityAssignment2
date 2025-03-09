@@ -9,9 +9,10 @@ public class GPlayerControllerX : MonoBehaviour
     private GameObject focalPoint;
 
     public bool hasPowerup;
+    public bool hasSpeedUp = false;
     public bool hasShield = false; // New Shield Powerup
     public GameObject powerupIndicator;
-    public GameObject shieldIndicator; // Shield Visual Indicator
+    public GameObject shieldIndicator; 
     public int powerUpDuration = 5;
     public GameObject shield;
     private float normalStrength = 10; // how hard to hit enemy without powerup
@@ -70,27 +71,28 @@ public class GPlayerControllerX : MonoBehaviour
             hasPowerup = true;
             powerupIndicator.SetActive(true);
         }
-        if (other.gameObject.CompareTag("ShieldPowerUp")) // Shield Powerup Pickup
+        if (other.gameObject.CompareTag("ShieldPowerUp")) 
         {
             SoundManager.Instance.PlayPowerupSound();
             SoundManager.Instance.PlayShieldSound();
             Destroy(other.gameObject);
             StartCoroutine(ShieldCooldown());
         }
+       
     }
     IEnumerator ShieldCooldown()
     {
         hasShield = true;
-        shieldIndicator.SetActive(true); // Show shield
+        shieldIndicator.SetActive(true); 
         shield.SetActive(true);
-        yield return new WaitForSeconds(powerUpDuration); // Shield lasts 5s
+        yield return new WaitForSeconds(powerUpDuration);
 
         hasShield = false;
-        shieldIndicator.SetActive(false); // Hide shield
+        shieldIndicator.SetActive(false);
         shield.SetActive(false);
         SoundManager.Instance.StopShieldSound();
     }
-
+   
 
     // Coroutine to count down powerup duration
     IEnumerator PowerupCooldown()

@@ -392,6 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1813147854}
   - component: {fileID: 1813147853}
+  - component: {fileID: 1813147855}
   m_Layer: 0
   m_Name: HomeSoundMg
   m_TagString: Untagged
@@ -511,6 +512,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1813147855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813147852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adc603cb2855d341b4fe6b9fe5139a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8300000, guid: 8697596247bb8684b914e83a8f1822d1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -7,10 +7,12 @@ using UnityEngine.SceneManagement;
 public class GSpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject enemy2Prefab;
+    public GameObject enemy3Prefab;
     public GameObject[] powerupPrefabs;
-
+    private static int highScore = 0;
     private float spawnX = 0;
-    private float spawnZ = 11.866f; 
+    private float spawnZ = 11.866f;
 
     public static int enemyCount;
     public static int waveCount = 1;
@@ -20,17 +22,20 @@ public class GSpawnManagerX : MonoBehaviour
 
     public GameObject player;
 
-    private int enemiesToSpawn=0;
-    private bool spawningrn=false;
+    private int enemiesToSpawn = 0;
+    private bool spawningrn = false;
 
-    public HomePageHandler homepage;
+    private GameObject newEnemy;
+    private GEnemyX enemyscript;
+    private GEnemyX2 enemy2script;
+    private GEnemyX3 enemy3script;
 
     void Start()
     {
         counter = UIDoc.rootVisualElement.Q<Label>("counter");
         counter.style.display = DisplayStyle.None;
     }
-                                     
+
     void Update()
     {
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length; //part of challenge: used to say "powerup" i changed it to enemy
@@ -41,7 +46,7 @@ public class GSpawnManagerX : MonoBehaviour
             enemiesToSpawn = waveCount;
             StartCoroutine(SpawnEnemyWave());
         }
-
+        
     }
 
 
@@ -50,30 +55,49 @@ public class GSpawnManagerX : MonoBehaviour
     {
         StartCoroutine(showCount(enemiesToSpawn));
 
-        Vector3 powerupSpawnPos = new Vector3(player.transform.position.x + Random.Range(4f, 7f) * (Random.value > 0.5f ? 1 : -1), -0.67f, player.transform.position.z);
+        Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // Adjusted for player positioning
 
-
-        // If no powerups remain, spawn a powerup
-        if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
+        // Spawn powerup if none exists
+        if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0)
         {
-            int randomIndex = Random.Range(0, powerupPrefabs.Length); // Pick a random powerup
-            Instantiate(powerupPrefabs[randomIndex], powerupSpawnPos, powerupPrefabs[randomIndex].transform.rotation);
+            int randomIndex = Random.Range(0, powerupPrefabs.Length);
+
+            float randX = Random.Range(-player.GetComponent<GPlayerControllerX>().goallimit, player.GetComponent<GPlayerControllerX>().goallimit);
+            float spawnZ = -7f; 
+
+            Instantiate(powerupPrefabs[randomIndex], new Vector3(randX, -0.64f, spawnZ), powerupPrefabs[randomIndex].transform.rotation);
         }
 
-        // Spawn number of enemy balls based on wave number
+        // Spawn enemies
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            float delay = (3+(i * 2f));
+            float delay = (3 + (i * 2f));
             yield return new WaitForSeconds(delay);
-            GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
-            GEnemyX enemyscript = newEnemy.GetComponent<GEnemyX>();
-            enemyscript.spawner = this;
+
+            GameObject newEnemy;
+            int randomIndex = Random.Range(0, 3);
+
+            if (randomIndex == 0)
+            {
+                newEnemy = Instantiate(enemy2Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemy2Prefab.transform.rotation);
+            }
+            else if (randomIndex == 1)
+            {
+                newEnemy = Instantiate(enemyPrefab, new Vector3(spawnX, -0.64f, spawnZ), enemyPrefab.transform.rotation);
+            }
+            else
+            {
+                newEnemy = Instantiate(enemy3Prefab, new Vector3(spawnX, -0.64f, spawnZ), enemy3Prefab.transform.rotation);
+            }
+
+            GEnemyX enemyScript = newEnemy.GetComponent<GEnemyX>();
+            enemyScript.spawner = this;
         }
 
         waveCount++;
         spawningrn = false;
-
     }
+
 
     // Move player back to position in front of own goal
     void ResetPlayerPosition()
@@ -86,10 +110,14 @@ public class GSpawnManagerX : MonoBehaviour
 
     private IEnumerator showCount(int enemiesToSpawn)
     {
-        
-        counter.text = ""+enemiesToSpawn;
+
+        counter.text = "" + enemiesToSpawn;
         counter.style.display = DisplayStyle.Flex;
-        
+        if (enemiesToSpawn-1 > highScore)
+        {
+            highScore = enemiesToSpawn-1;
+
+        }
         yield return new WaitForSeconds(3);
 
         counter.style.display = DisplayStyle.None;
@@ -99,10 +127,24 @@ public class GSpawnManagerX : MonoBehaviour
 
     public void reset()
     {
+        Debug.Log("score: "+ highScore);
         enemyCount = 0;
         waveCount = 1;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void resetScore()
+    {
+        enemyCount = 0;
+        waveCount = 1;
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
+    }
+    public int getHighScore()
+    {
+        return highScore;
     }
 
 }
